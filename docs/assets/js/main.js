@@ -7,7 +7,7 @@ const tracks = [
   { title: "Good Times", date: "30 oct 2025", type: "clip", yt: "VDaJe8f1_qc", link: "https://wiseband.lnk.to/Swiff-Bounty-Good-Times" },
   { title: "Run the Track", date: "10 oct 2025", type: "clip", yt: "kjgHtYrj_nA", link: "https://wiseband.lnk.to/Swiff-Bounty-Faya-Pyd-Cozik-Run-The-Track" },
   { title: "Flamming Soul", date: "27 mai 2025", type: "clip", yt: "1sLDdVg2S3w", link: "https://open.spotify.com/intl-fr/track/5ll1WxWijqjHzL1wng644Y" },
-  { title: "Short Remix — Série n°1", date: "2025", type: "clip", yt: "brP1eqxWkCg", playlist: "PLEQHouVYID5H0-dq6d5cVq-WaJNj4pb2R", link: "" },
+  { title: "Short Remix — Série n°1", date: "2025", type: "clip", yt: "brP1eqxWkCg", playlist: "PLEQHouVYID5H0-dq6d5cVq-WaJNj4pb2R", link: "https://open.spotify.com/artist/4aZOR8MAhs4QKX2pUvTEjI" },
   { title: "Like a Storm", date: "20 janv 2025", type: "clip", yt: "6prtKJXYOxQ", link: "https://wiseband.lnk.to/Swiff-Bounty-Like-A-Storm" },
   { title: "Like the Sun", date: "19 janv 2024", type: "clip", yt: "Z3YieICV8mE", link: "https://wiseband.lnk.to/Swiff-Bounty-Like-The-Sun" },
   { title: "La Paix", date: "14 juil 2023", type: "visualizer", yt: "CQgDo7XeCcw", link: "https://wiseband.lnk.to/Swiff-Bounty-La-Paix" },
@@ -23,10 +23,6 @@ const videos = [
   { title: "Be Ruff", type: "visualizer", yt: "xkP7cPlSuPI" },
   { title: "Vaillant", type: "visualizer", yt: "fth2nh0gJMM" },
   { title: "La Paix", type: "visualizer", yt: "CQgDo7XeCcw" },
-  { title: "Radio Laser — Ep. 1/5", type: "interview", yt: "FbfFWUsHStE" },
-  { title: "Radio Laser — Ep. 2/5", type: "interview", yt: "81Zo5oAnIsI" },
-  { title: "Radio Laser — Ep. 3/5", type: "interview", yt: "71RMQFMRmNM" },
-  { title: "Radio Laser — Ep. 4/5", type: "interview", yt: "fl6L3aQYj2E" },
 ];
 
 const photos = [
@@ -90,7 +86,11 @@ tracks.forEach(t => {
       <div class="track-date">${t.date}</div>
     </div>
   `;
-  card.addEventListener("click", () => openVideo(t.yt, t.playlist));
+  if (t.link) {
+    card.addEventListener("click", () => window.open(t.link, "_blank", "noopener"));
+  } else {
+    card.style.cursor = "default";
+  }
   discoGrid.appendChild(card);
 });
 
@@ -239,10 +239,20 @@ audio.addEventListener("play", () => setPlayingUI(true));
 audio.addEventListener("pause", () => setPlayingUI(false));
 audio.addEventListener("ended", () => { loadTrack(trackIdx + 1); audio.play(); });
 
-/* Album feature facade */
-document.querySelectorAll(".album-feature-embed[data-yt]").forEach(el => {
-  el.addEventListener("click", () => swapFacade(el));
-  el.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); swapFacade(el); } });
+/* ---- Render full support ---- */
+const support = [
+  { name: "The Fanatiks", role: "Scène partagée" },
+  { name: "Faya Pyd", role: "Producteur" },
+  { name: "Brother Culture", role: "Scène partagée" },
+  { name: "Dougy", role: "Scène partagée" },
+  { name: "Kali Soundsystem", role: "Sound system" },
+];
+const supportGrid = document.getElementById("supportGrid");
+support.forEach(a => {
+  const card = document.createElement("div");
+  card.className = "support-card reveal";
+  card.innerHTML = `<h4>${a.name}</h4><small>${a.role}</small>`;
+  supportGrid.appendChild(card);
 });
 
 function startAudio() {
