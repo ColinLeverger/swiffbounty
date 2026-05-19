@@ -82,8 +82,7 @@ tracks.forEach(t => {
   card.innerHTML = `
     ${t.badge ? `<span class="track-badge ${t.type === 'album' ? 'album' : ''}">${t.badge}</span>` : ""}
     <div class="track-cover">
-      <img src="https://img.youtube.com/vi/${t.yt}/maxresdefault.jpg"
-           onerror="this.src='https://img.youtube.com/vi/${t.yt}/hqdefault.jpg'"
+      <img src="https://img.youtube.com/vi/${t.yt}/hqdefault.jpg"
            alt="${t.title}" loading="lazy">
     </div>
     <div class="track-info">
@@ -103,20 +102,29 @@ function renderVideos(filter = "all") {
     const c = document.createElement("div");
     c.className = "video-card reveal";
     c.innerHTML = `
-      <div class="video-embed">
-        <iframe src="https://www.youtube-nocookie.com/embed/${v.yt}"
-          title="${v.title}"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen loading="lazy"></iframe>
+      <div class="video-embed" data-yt="${v.yt}" role="button" tabindex="0" aria-label="Lire ${v.title}">
+        <img src="https://img.youtube.com/vi/${v.yt}/hqdefault.jpg" alt="${v.title}" loading="lazy">
+        <div class="play-overlay">▶</div>
       </div>
       <div class="label">
         <span>${v.title}</span>
         <small>${v.type}</small>
       </div>
     `;
+    const facade = c.querySelector(".video-embed");
+    facade.addEventListener("click", () => swapFacade(facade));
+    facade.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); swapFacade(facade); } });
     videoGrid.appendChild(c);
   });
   observeReveal();
+}
+function swapFacade(el) {
+  const yt = el.dataset.yt;
+  el.innerHTML = `<iframe src="https://www.youtube.com/embed/${yt}?autoplay=1"
+    title="YouTube"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen></iframe>`;
+  if (typeof audio !== "undefined" && !audio.paused) audio.pause();
 }
 renderVideos();
 document.querySelectorAll(".video-tabs button").forEach(btn => {
@@ -195,6 +203,7 @@ const volIcon = document.getElementById("volIcon");
 const muteIcon = document.getElementById("muteIcon");
 
 const audio = new Audio();
+audio.preload = "none";
 audio.volume = 0.45;
 audio.muted = true;
 let trackIdx = Math.floor(Math.random() * audioPlaylist.length);
@@ -230,12 +239,20 @@ audio.addEventListener("play", () => setPlayingUI(true));
 audio.addEventListener("pause", () => setPlayingUI(false));
 audio.addEventListener("ended", () => { loadTrack(trackIdx + 1); audio.play(); });
 
-loadTrack(trackIdx);
-setMutedUI(true);
-player.hidden = false;
-audio.play().catch(() => {
-  setPlayingUI(false);
+/* Album feature facade */
+document.querySelectorAll(".album-feature-embed[data-yt]").forEach(el => {
+  el.addEventListener("click", () => swapFacade(el));
+  el.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); swapFacade(el); } });
 });
+
+function startAudio() {
+  loadTrack(trackIdx);
+  setMutedUI(true);
+  player.hidden = false;
+  audio.play().catch(() => setPlayingUI(false));
+}
+if (document.readyState === "complete") startAudio();
+else window.addEventListener("load", startAudio);
 const oneShotUnmute = () => {
   if (audio.muted) {
     audio.muted = false;

@@ -56,7 +56,7 @@
 
 <!-- ========== HERO ========== -->
 <header class="hero" id="hero">
-  <img class="hero-bg" src="assets/img/photos/DSC07447-Modifier.jpg" alt="">
+  <img class="hero-bg" src="assets/img/photos/DSC07447-Modifier.jpg" alt="" fetchpriority="high" decoding="async">
   <div class="hero-shade"></div>
   <div class="container">
     <span class="eyebrow">Reggae · Hip-Hop · Dancehall — Bretagne</span>
@@ -101,11 +101,9 @@
       <h2>Modern Jungle</h2>
     </div>
     <div class="album-feature reveal">
-      <div class="album-feature-embed">
-        <iframe src="https://www.youtube.com/embed/kjgHtYrj_nA"
-          title="Modern Jungle — Run the Track"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen></iframe>
+      <div class="album-feature-embed video-embed" data-yt="kjgHtYrj_nA" role="button" tabindex="0" aria-label="Lire Run the Track">
+        <img src="https://img.youtube.com/vi/kjgHtYrj_nA/maxresdefault.jpg" alt="Run the Track">
+        <div class="play-overlay">▶</div>
       </div>
       <div class="album-feature-info">
         <span class="eyebrow">Premier album</span>
