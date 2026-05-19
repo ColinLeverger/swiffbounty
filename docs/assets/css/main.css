@@ -1,0 +1,771 @@
+/* ============ Swiff Bounty — main.css ============ */
+:root {
+  --bg: #0a0a0a;
+  --bg-soft: #141414;
+  --bg-elev: #1c1c1c;
+  --orange: #ff6b1a;
+  --orange-bright: #ff8533;
+  --blue: #1a8fff;
+  --yellow: #f5d000;
+  --text: #f5f5f5;
+  --text-dim: #b5b5b5;
+  --border: rgba(255, 255, 255, 0.08);
+  --max: 1400px;
+  --nav-h: 72px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+img { max-width: 100%; height: auto; display: block; }
+a { color: inherit; text-decoration: none; transition: color .2s; }
+a:hover { color: var(--orange); }
+button { font: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+
+/* ---- Typography ---- */
+.display, h1, h2 {
+  font-family: "Alfa Slab One", "Playfair Display", Georgia, serif;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.01em;
+}
+h2 {
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  color: var(--yellow);
+  text-transform: uppercase;
+  -webkit-text-stroke: 1px #000;
+  text-shadow: 4px 4px 0 var(--orange);
+  margin-bottom: 2.5rem;
+}
+h3 {
+  font-family: "Playfair Display", Georgia, serif;
+  font-weight: 900;
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+p { color: var(--text-dim); }
+strong { color: var(--text); }
+.eyebrow {
+  display: inline-block;
+  font-family: "Alfa Slab One", serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+  color: var(--orange);
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+/* ---- Layout ---- */
+section { padding: 6rem 0; position: relative; }
+.container {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+.section-head { margin-bottom: 3rem; }
+
+/* ---- Nav ---- */
+nav.topnav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--nav-h);
+  background: rgba(10, 10, 10, 0.7);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+}
+nav .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.nav-logo { display: flex; align-items: center; gap: 0.6rem; }
+.nav-logo img { height: 42px; width: auto; }
+.nav-logo span {
+  font-family: "Alfa Slab One", serif;
+  font-size: 1.1rem;
+  color: var(--yellow);
+  letter-spacing: 0.05em;
+}
+.nav-links { display: flex; gap: 1.8rem; align-items: center; }
+.nav-links a {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 600;
+  position: relative;
+}
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  bottom: -6px; left: 0;
+  height: 2px; width: 0;
+  background: var(--orange);
+  transition: width .25s;
+}
+.nav-links a:hover::after { width: 100%; }
+.nav-socials { display: flex; gap: 0.8rem; }
+.nav-socials a {
+  width: 36px; height: 36px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .2s;
+}
+.nav-socials a:hover {
+  border-color: var(--orange);
+  background: var(--orange);
+  color: #000;
+  transform: translateY(-2px);
+}
+.nav-socials svg { width: 16px; height: 16px; }
+.menu-toggle { display: none; }
+
+/* ---- Hero ---- */
+.hero {
+  min-height: 100vh;
+  padding: calc(var(--nav-h) + 1.5rem) 0 4rem;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 18%;
+  z-index: 0;
+}
+.hero-shade {
+  position: absolute; inset: 0; z-index: 1;
+  background:
+    radial-gradient(circle at 70% 30%, rgba(26,143,255,0.18), transparent 60%),
+    linear-gradient(180deg, rgba(10,10,10,0.35) 0%, rgba(10,10,10,0.55) 55%, rgba(10,10,10,0.92) 100%);
+}
+.hero .container { position: relative; z-index: 2; }
+.hero h1 {
+  font-size: clamp(3.5rem, 11vw, 11rem);
+  color: var(--yellow);
+  -webkit-text-stroke: 2px #000;
+  text-shadow:
+    6px 6px 0 var(--orange),
+    12px 12px 0 var(--blue);
+  text-transform: uppercase;
+  line-height: 0.85;
+  margin-bottom: 1.5rem;
+}
+.hero-sub {
+  font-family: "Alfa Slab One", serif;
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  color: var(--text);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 2.5rem;
+}
+.hero-sub span { color: var(--orange); }
+.hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+/* ---- Buttons ---- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.95rem 1.8rem;
+  font-family: "Alfa Slab One", serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 2px solid var(--orange);
+  background: var(--orange);
+  color: #000;
+  border-radius: 4px;
+  transition: all .25s;
+  position: relative;
+  overflow: hidden;
+}
+.btn:hover {
+  background: transparent;
+  color: var(--orange);
+  box-shadow: 0 0 30px rgba(255,107,26,0.6);
+  transform: translateY(-2px);
+}
+.btn-ghost {
+  background: transparent;
+  border-color: var(--blue);
+  color: var(--blue);
+}
+.btn-ghost:hover {
+  background: var(--blue);
+  color: #000;
+  box-shadow: 0 0 30px rgba(26,143,255,0.6);
+}
+
+/* ---- Bio ---- */
+.bio-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+.bio-grid img {
+  border-radius: 6px;
+  filter: grayscale(0.2) contrast(1.1);
+  box-shadow: 12px 12px 0 var(--orange);
+}
+.bio-text p { margin-bottom: 1.2rem; font-size: 1.05rem; }
+.bio-tags {
+  display: flex; gap: 0.6rem; flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+.bio-tags span {
+  font-family: "Alfa Slab One", serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+/* ---- Album highlight ---- */
+.album-feature {
+  background: linear-gradient(135deg, #1a0a0a 0%, #0a0a1a 100%);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+.album-feature-embed {
+  aspect-ratio: 16/9;
+  position: relative;
+}
+.album-feature-embed iframe {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  border: 0;
+}
+.album-feature-info { padding: 3rem; display: flex; flex-direction: column; justify-content: center; }
+.album-feature-info .eyebrow { color: var(--blue); }
+.album-feature-info h3 {
+  font-family: "Alfa Slab One", serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: var(--yellow);
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+.album-feature-info p { margin-bottom: 1.5rem; }
+.album-feature-meta {
+  display: flex; gap: 2rem; margin-bottom: 1.5rem;
+  font-size: 0.85rem; color: var(--text-dim);
+  text-transform: uppercase; letter-spacing: 0.1em;
+}
+.album-feature-meta strong { color: var(--orange); }
+
+/* ---- Discographie grid ---- */
+.disco-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+.track-card {
+  background: var(--bg-soft);
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all .3s;
+  position: relative;
+  border: 1px solid var(--border);
+}
+.track-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--orange);
+  box-shadow: 0 12px 40px rgba(255,107,26,0.25);
+}
+.track-cover {
+  aspect-ratio: 16/9;
+  position: relative;
+  overflow: hidden;
+  background: #000;
+}
+.track-cover img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform .4s;
+}
+.track-card:hover .track-cover img { transform: scale(1.08); }
+.track-cover::after {
+  content: "▶";
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) scale(0.7);
+  width: 64px; height: 64px;
+  background: var(--orange);
+  color: #000;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem;
+  opacity: 0;
+  transition: all .3s;
+}
+.track-card:hover .track-cover::after {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+.track-info { padding: 1rem 1.2rem 1.2rem; }
+.track-info h3 {
+  font-size: 1.1rem;
+  color: var(--text);
+  margin-bottom: 0.2rem;
+}
+.track-info .track-date {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.track-badge {
+  position: absolute;
+  top: 0.8rem; left: 0.8rem;
+  background: var(--blue);
+  color: #000;
+  font-family: "Alfa Slab One", serif;
+  font-size: 0.7rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  z-index: 2;
+}
+.track-badge.album { background: var(--yellow); }
+
+/* ---- Videos ---- */
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+.video-card {
+  background: var(--bg-soft);
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.video-embed {
+  aspect-ratio: 16/9;
+  position: relative;
+}
+.video-embed iframe {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  border: 0;
+}
+.video-card .label {
+  padding: 1rem 1.2rem;
+  font-size: 0.9rem;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.video-card .label small {
+  color: var(--blue);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.7rem;
+}
+.video-tabs {
+  display: flex; gap: 0.6rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+.video-tabs button {
+  padding: 0.55rem 1.1rem;
+  font-family: "Alfa Slab One", serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  color: var(--text-dim);
+  transition: all .2s;
+}
+.video-tabs button.active,
+.video-tabs button:hover {
+  border-color: var(--orange);
+  background: var(--orange);
+  color: #000;
+}
+
+/* ---- Photos masonry ---- */
+.photo-grid {
+  columns: 3;
+  column-gap: 1rem;
+}
+@media (max-width: 900px) { .photo-grid { columns: 2; } }
+@media (max-width: 560px) { .photo-grid { columns: 1; } }
+.photo-grid figure {
+  break-inside: avoid;
+  margin-bottom: 1rem;
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: zoom-in;
+  position: relative;
+  background: #000;
+}
+.photo-grid img {
+  width: 100%;
+  transition: transform .4s, filter .3s;
+  filter: brightness(0.95);
+}
+.photo-grid figure:hover img {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+
+/* ---- Lightbox ---- */
+.lightbox {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.95);
+  z-index: 200;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+.lightbox.open { display: flex; }
+.lightbox img,
+.lightbox iframe {
+  max-width: 90vw;
+  max-height: 90vh;
+  border-radius: 4px;
+}
+.lightbox iframe { width: 90vw; aspect-ratio: 16/9; height: auto; }
+.lightbox-close {
+  position: absolute;
+  top: 2rem; right: 2rem;
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: var(--orange);
+  color: #000;
+  font-size: 1.4rem;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ---- Press ---- */
+.press-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+.press-card {
+  padding: 2rem;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--orange);
+  border-radius: 6px;
+  transition: all .25s;
+}
+.press-card:hover {
+  border-left-color: var(--blue);
+  transform: translateX(4px);
+}
+.press-card h4 {
+  font-family: "Alfa Slab One", serif;
+  font-size: 1.1rem;
+  color: var(--yellow);
+  margin-bottom: 0.8rem;
+  text-transform: uppercase;
+}
+.press-card blockquote {
+  font-style: italic;
+  color: var(--text-dim);
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+.press-card a { color: var(--orange); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; }
+
+.festivals {
+  margin-top: 3rem;
+  padding: 2rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(255,107,26,0.05), rgba(26,143,255,0.05));
+}
+.festivals h4 {
+  font-family: "Alfa Slab One", serif;
+  color: var(--orange);
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.festivals ul {
+  list-style: none;
+  display: flex; flex-wrap: wrap; gap: 0.8rem;
+}
+.festivals li {
+  padding: 0.5rem 1rem;
+  background: var(--bg);
+  border-radius: 20px;
+  font-size: 0.9rem;
+  border: 1px solid var(--border);
+}
+
+/* ---- Concerts ---- */
+.concerts-empty {
+  text-align: center;
+  padding: 4rem 2rem;
+  border: 2px dashed var(--border);
+  border-radius: 12px;
+}
+.concerts-empty p { font-size: 1.1rem; margin-bottom: 1.5rem; }
+
+/* ---- Contact ---- */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+.contact-info { display: flex; flex-direction: column; gap: 1.5rem; }
+.contact-item {
+  display: flex; gap: 1rem; align-items: center;
+  padding: 1.2rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-soft);
+  transition: all .25s;
+}
+.contact-item:hover { border-color: var(--orange); transform: translateX(4px); }
+.contact-item .icon {
+  width: 48px; height: 48px;
+  background: var(--orange);
+  color: #000;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.contact-item small { display: block; color: var(--text-dim); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; }
+.contact-item strong { font-size: 1.1rem; }
+.contact-socials {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+.contact-socials a {
+  padding: 1.2rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-soft);
+  display: flex; align-items: center; gap: 0.8rem;
+  transition: all .25s;
+}
+.contact-socials a:hover {
+  border-color: var(--orange);
+  background: var(--orange);
+  color: #000;
+  transform: translateY(-2px);
+}
+.contact-socials svg { width: 24px; height: 24px; }
+
+/* ---- Footer ---- */
+footer {
+  padding: 3rem 0 2rem;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+footer .container {
+  display: flex; flex-direction: column; align-items: center; gap: 1.2rem;
+}
+footer img { height: 70px; }
+footer small { color: var(--text-dim); font-size: 0.85rem; }
+
+/* ---- Floating audio player ---- */
+.player {
+  position: fixed;
+  bottom: 1.2rem;
+  right: 1.2rem;
+  z-index: 90;
+  background: rgba(10,10,10,0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--orange);
+  border-radius: 12px;
+  padding: 0.9rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.6), 0 0 30px rgba(255,107,26,0.15);
+  max-width: calc(100vw - 2rem);
+  transition: transform .3s, opacity .3s;
+}
+.player.muted-prompt { animation: pulse 1.8s infinite; }
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 12px 40px rgba(0,0,0,0.6), 0 0 0 0 rgba(255,107,26,0.6); }
+  50% { box-shadow: 0 12px 40px rgba(0,0,0,0.6), 0 0 0 16px rgba(255,107,26,0); }
+}
+.player-btn {
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  background: var(--orange);
+  color: #000;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: all .2s;
+}
+.player-btn:hover { background: var(--orange-bright); transform: scale(1.05); }
+.player-btn.secondary {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  width: 36px; height: 36px;
+}
+.player-btn.secondary:hover { border-color: var(--orange); color: var(--orange); }
+.player-info { min-width: 0; }
+.player-info small {
+  display: block;
+  color: var(--orange);
+  font-family: "Alfa Slab One", serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 0.15rem;
+}
+.player-info strong {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 180px;
+}
+.player svg { width: 18px; height: 18px; }
+.player .player-controls { display: flex; gap: 0.4rem; }
+@media (max-width: 560px) {
+  .player { bottom: 0.6rem; right: 0.6rem; left: 0.6rem; padding: 0.7rem 0.8rem; }
+  .player-info strong { max-width: 100px; font-size: 0.85rem; }
+  .player-btn.secondary { display: none; }
+}
+
+/* ---- Concerts list ---- */
+.concert-list { display: flex; flex-direction: column; gap: 0.8rem; }
+.concert-row {
+  display: grid;
+  grid-template-columns: 120px 1fr auto;
+  gap: 1.5rem;
+  align-items: center;
+  padding: 1.4rem 1.8rem;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--orange);
+  border-radius: 6px;
+  transition: all .25s;
+}
+.concert-row:hover {
+  border-left-color: var(--blue);
+  transform: translateX(4px);
+  background: var(--bg-elev);
+}
+.concert-date {
+  font-family: "Alfa Slab One", serif;
+  color: var(--yellow);
+  text-transform: uppercase;
+}
+.concert-date .day {
+  display: block;
+  font-size: 2rem;
+  line-height: 1;
+  color: var(--orange);
+}
+.concert-date .month {
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  margin-top: 0.2rem;
+  color: var(--text-dim);
+}
+.concert-venue h4 {
+  font-family: "Playfair Display", serif;
+  font-weight: 900;
+  font-size: 1.15rem;
+  color: var(--text);
+  margin-bottom: 0.2rem;
+}
+.concert-venue p { font-size: 0.9rem; }
+.concert-venue .with {
+  display: inline-block;
+  font-size: 0.7rem;
+  background: var(--blue);
+  color: #000;
+  padding: 0.2rem 0.5rem;
+  border-radius: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 0.3rem;
+}
+.concert-cta { font-size: 0.8rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; }
+@media (max-width: 700px) {
+  .concert-row {
+    grid-template-columns: 80px 1fr;
+    padding: 1rem;
+    gap: 1rem;
+  }
+  .concert-cta { display: none; }
+  .concert-date .day { font-size: 1.5rem; }
+}
+
+/* ---- Reveal anim ---- */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity .8s, transform .8s;
+}
+.reveal.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 900px) {
+  .bio-grid,
+  .album-feature,
+  .contact-grid { grid-template-columns: 1fr; }
+  .bio-grid img { box-shadow: 8px 8px 0 var(--orange); }
+  .album-feature-info { padding: 2rem; }
+  .nav-links { display: none; }
+  .nav-socials { display: none; }
+  .menu-toggle {
+    display: flex;
+    align-items: center; justify-content: center;
+    width: 40px; height: 40px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+  }
+  .nav-links.open {
+    display: flex;
+    position: absolute;
+    top: var(--nav-h); left: 0; right: 0;
+    background: rgba(10,10,10,0.97);
+    backdrop-filter: blur(14px);
+    flex-direction: column;
+    padding: 2rem;
+    gap: 1.2rem;
+    border-bottom: 1px solid var(--border);
+  }
+  section { padding: 4rem 0; }
+  .hero h1 { text-shadow: 4px 4px 0 var(--orange), 8px 8px 0 var(--blue); }
+}

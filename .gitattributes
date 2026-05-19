@@ -1,0 +1,6 @@
+photos-swiff/*.jpg filter=lfs diff=lfs merge=lfs -text
+photos-swiff/*.jpeg filter=lfs diff=lfs merge=lfs -text
+photos-swiff/*.png filter=lfs diff=lfs merge=lfs -text
+photos-swiff/*.JPG filter=lfs diff=lfs merge=lfs -text
+photos-swiff/*.CR3 filter=lfs diff=lfs merge=lfs -text
+photos-swiff/*.cr3 filter=lfs diff=lfs merge=lfs -text
