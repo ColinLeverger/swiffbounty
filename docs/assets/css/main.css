@@ -98,13 +98,14 @@ nav .container {
   color: var(--yellow);
   letter-spacing: 0.05em;
 }
-.nav-links { display: flex; gap: 1.8rem; align-items: center; }
+.nav-links { display: flex; gap: 1.4rem; align-items: center; margin: 0 2rem; }
 .nav-links a {
   font-size: 0.9rem;
   text-transform: uppercase;
   letter-spacing: 0.12em;
   font-weight: 600;
   position: relative;
+  white-space: nowrap;
 }
 .nav-links a::after {
   content: "";
