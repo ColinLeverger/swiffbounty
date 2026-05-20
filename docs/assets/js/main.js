@@ -1,4 +1,4 @@
-/* ============ Swiff Bounty — main.js ============ */
+/* ============ Swiff Bounty - main.js ============ */
 
 /* ---- Data ---- */
 const tracks = [
@@ -7,7 +7,7 @@ const tracks = [
   { title: "Good Times", date: "30 oct 2025", type: "clip", yt: "VDaJe8f1_qc", link: "https://wiseband.lnk.to/Swiff-Bounty-Good-Times" },
   { title: "Run the Track", date: "10 oct 2025", type: "clip", yt: "kjgHtYrj_nA", link: "https://wiseband.lnk.to/Swiff-Bounty-Faya-Pyd-Cozik-Run-The-Track" },
   { title: "Flamming Soul", date: "27 mai 2025", type: "clip", yt: "1sLDdVg2S3w", link: "https://open.spotify.com/intl-fr/track/5ll1WxWijqjHzL1wng644Y" },
-  { title: "Short Remix — Série n°1", date: "2025", type: "clip", yt: "brP1eqxWkCg", playlist: "PLEQHouVYID5H0-dq6d5cVq-WaJNj4pb2R", link: "https://open.spotify.com/artist/4aZOR8MAhs4QKX2pUvTEjI" },
+  { title: "Short Remix - Série n°1", date: "2025", type: "clip", yt: "brP1eqxWkCg", playlist: "PLEQHouVYID5H0-dq6d5cVq-WaJNj4pb2R", link: "https://open.spotify.com/artist/4aZOR8MAhs4QKX2pUvTEjI" },
   { title: "Like a Storm", date: "20 janv 2025", type: "clip", yt: "6prtKJXYOxQ", link: "https://wiseband.lnk.to/Swiff-Bounty-Like-A-Storm" },
   { title: "Like the Sun", date: "19 janv 2024", type: "clip", yt: "Z3YieICV8mE", link: "https://wiseband.lnk.to/Swiff-Bounty-Like-The-Sun" },
   { title: "La Paix", date: "14 juil 2023", type: "visualizer", yt: "CQgDo7XeCcw", link: "https://wiseband.lnk.to/Swiff-Bounty-La-Paix" },
@@ -245,7 +245,7 @@ const support = [
     name: "Brozearth Sound System",
     logo: "brozearth.jpg",
     link: "https://www.facebook.com/Brozearth/?locale=fr_FR",
-    bio: "Sound system rennais actif depuis 2014. Sélections roots reggae & dub en pure tradition jamaïcaine — plus de 250 concerts, un message de partage et d'unité.",
+    bio: "Sound system rennais actif depuis 2014. Sélections roots reggae & dub en pure tradition jamaïcaine, plus de 250 concerts, un message de partage et d'unité.",
   },
   {
     name: "Cozik",
@@ -263,14 +263,14 @@ const support = [
     name: "Kali Sound System",
     logo: "kali-sound.jpg",
     link: "https://www.facebook.com/p/Kali-Sound-System-100063640326462/",
-    bio: "Sound system breton spécialisé reggae, dancehall & ragga jungle. Dubplates exclusives, basses puissantes — l'énergie des grandes soirées.",
+    bio: "Sound system breton spécialisé reggae, dancehall & ragga jungle. Dubplates exclusives, basses puissantes... L'énergie des grandes soirées.",
   },
   {
     name: "The Fanatiks",
     logo: "the-fanatiks.png",
     logoWide: true,
     link: "https://thefanatiks.fr",
-    bio: "6 musiciens rennais fondés en 2015. Roots, rock & reggae — textes conscients et mélodies accrocheuses sur fond d'énergie positive.",
+    bio: "5 musiciens rennais fondés en 2015. Roots, rock & reggae. Textes conscients et mélodies accrocheuses sur fond d'énergie positive.",
   },
 ];
 const supportGrid = document.getElementById("supportGrid");
