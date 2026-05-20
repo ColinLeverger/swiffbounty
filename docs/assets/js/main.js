@@ -2,7 +2,7 @@
 
 /* ---- Data ---- */
 const tracks = [
-  { title: "Modern Jungle", date: "5 déc 2025", type: "album", yt: "kjgHtYrj_nA", playlist: "PLEQHouVYID5H1ZfCcvElC-zK61wlEyM6Q", link: "https://wiseband.lnk.to/Swiff-Bounty-Modern-Jungle", badge: "Album" },
+  { title: "Modern Jungle", date: "5 déc 2025", type: "album", yt: "kjgHtYrj_nA", cover: "assets/img/covers/pochette-modern-jungle-v2.jpg", playlist: "PLEQHouVYID5H1ZfCcvElC-zK61wlEyM6Q", link: "https://wiseband.lnk.to/Swiff-Bounty-Modern-Jungle", badge: "Album" },
   { title: "Be Ruff", date: "28 nov 2025", type: "visualizer", yt: "xkP7cPlSuPI", link: "https://wiseband.lnk.to/Swiff-Bounty-Be-Ruff" },
   { title: "Good Times", date: "30 oct 2025", type: "clip", yt: "VDaJe8f1_qc", link: "https://wiseband.lnk.to/Swiff-Bounty-Good-Times" },
   { title: "Run the Track", date: "10 oct 2025", type: "clip", yt: "kjgHtYrj_nA", link: "https://wiseband.lnk.to/Swiff-Bounty-Faya-Pyd-Cozik-Run-The-Track" },
@@ -78,7 +78,7 @@ tracks.forEach(t => {
   card.innerHTML = `
     ${t.badge ? `<span class="track-badge ${t.type === 'album' ? 'album' : ''}">${t.badge}</span>` : ""}
     <div class="track-cover">
-      <img src="https://img.youtube.com/vi/${t.yt}/hqdefault.jpg"
+      <img src="${t.cover || `https://img.youtube.com/vi/${t.yt}/hqdefault.jpg`}"
            alt="${t.title}" loading="lazy">
     </div>
     <div class="track-info">
@@ -241,17 +241,22 @@ audio.addEventListener("ended", () => { loadTrack(trackIdx + 1); audio.play(); }
 
 /* ---- Render full support ---- */
 const support = [
-  { name: "The Fanatiks", role: "Scène partagée" },
-  { name: "Faya Pyd", role: "Producteur" },
-  { name: "Brother Culture", role: "Scène partagée" },
-  { name: "Dougy", role: "Scène partagée" },
-  { name: "Kali Soundsystem", role: "Sound system" },
+  { name: "Brozearth Sound System", logo: "brozearth.jpg", link: "https://www.facebook.com/Brozearth/?locale=fr_FR" },
+  { name: "Cozik", logo: "cozik.png", link: "https://www.youtube.com/channel/UC9qJfUToyntvuWC9Rqmr0jQ" },
+  { name: "Faya Pyd", logo: "faya-pyd.png", link: "https://www.youtube.com/channel/UCUcjdU5xZn9S7OMhTBFk3SA" },
+  { name: "Kali Sound System", logo: "kali-sound.jpg", link: "https://www.facebook.com/p/Kali-Sound-System-100063640326462/" },
+  { name: "The Fanatiks", link: "https://thefanatiks.fr" },
 ];
 const supportGrid = document.getElementById("supportGrid");
 support.forEach(a => {
-  const card = document.createElement("div");
+  const card = document.createElement("a");
   card.className = "support-card reveal";
-  card.innerHTML = `<h4>${a.name}</h4><small>${a.role}</small>`;
+  card.href = a.link;
+  card.target = "_blank";
+  card.rel = "noopener";
+  card.innerHTML = a.logo
+    ? `<img src="assets/img/logos/${a.logo}" alt="${a.name}"><h4>${a.name}</h4>`
+    : `<h4>${a.name}</h4>`;
   supportGrid.appendChild(card);
 });
 

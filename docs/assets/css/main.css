@@ -567,16 +567,27 @@ nav .container {
   padding: 1.5rem 1.2rem;
   text-align: center;
   transition: all .3s;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
 }
 .support-card:hover {
   border-color: var(--orange);
   transform: translateY(-4px);
   box-shadow: 0 8px 24px rgba(255,107,26,0.15);
 }
+.support-card img {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 50%;
+}
 .support-card h4 {
   font-size: 1rem;
   color: var(--text);
-  margin-bottom: 0.3rem;
+  margin: 0;
 }
 .support-card small {
   color: var(--text-dim);
