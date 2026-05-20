@@ -46,7 +46,7 @@ const photos = [
 ];
 
 const concerts = [
-  { day: "30", month: "Mai", year: 2026, venue: "Noktanbûl", city: "Rennes", note: "Buyaka Party" },
+  { day: "30", month: "Mai", year: 2026, venue: "Noktambül", city: "Rennes", note: "Bouyaka Party" },
   { day: "05", month: "Juin", year: 2026, venue: "Bar Le QG", city: "Le Petit Fougeray" },
   { day: "06", month: "Juin", year: 2026, venue: "Festival des Pelos Locos", city: "Tressé (35)" },
   { day: "19", month: "Juin", year: 2026, venue: "Tremplin des Nuits de l'Erdre", city: "Nort-sur-Erdre" },
