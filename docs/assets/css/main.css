@@ -584,9 +584,23 @@ nav .container {
   object-fit: cover;
   border-radius: 50%;
 }
+.support-card img.wide {
+  width: 160px;
+  height: 52px;
+  object-fit: contain;
+  border-radius: 6px;
+  background: #fff;
+  padding: 6px 10px;
+}
 .support-card h4 {
   font-size: 1rem;
   color: var(--text);
+  margin: 0;
+}
+.support-bio {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  line-height: 1.55;
   margin: 0;
 }
 .support-card small {

@@ -241,11 +241,37 @@ audio.addEventListener("ended", () => { loadTrack(trackIdx + 1); audio.play(); }
 
 /* ---- Render full support ---- */
 const support = [
-  { name: "Brozearth Sound System", logo: "brozearth.jpg", link: "https://www.facebook.com/Brozearth/?locale=fr_FR" },
-  { name: "Cozik", logo: "cozik.png", link: "https://www.youtube.com/channel/UC9qJfUToyntvuWC9Rqmr0jQ" },
-  { name: "Faya Pyd", logo: "faya-pyd.png", link: "https://www.youtube.com/channel/UCUcjdU5xZn9S7OMhTBFk3SA" },
-  { name: "Kali Sound System", logo: "kali-sound.jpg", link: "https://www.facebook.com/p/Kali-Sound-System-100063640326462/" },
-  { name: "The Fanatiks", link: "https://thefanatiks.fr" },
+  {
+    name: "Brozearth Sound System",
+    logo: "brozearth.jpg",
+    link: "https://www.facebook.com/Brozearth/?locale=fr_FR",
+    bio: "Sound system rennais actif depuis 2014. Sélections roots reggae & dub en pure tradition jamaïcaine — plus de 250 concerts, un message de partage et d'unité.",
+  },
+  {
+    name: "Cozik",
+    logo: "cozik.png",
+    link: "https://www.youtube.com/channel/UC9qJfUToyntvuWC9Rqmr0jQ",
+    bio: "Chanteur-compositeur breton, voix du reggae francophone moderne. Révélé par le contest #1minute2reggae, des millions de streams aux côtés de Faya Pyd.",
+  },
+  {
+    name: "Faya Pyd",
+    logo: "faya-pyd.png",
+    link: "https://www.youtube.com/channel/UCUcjdU5xZn9S7OMhTBFk3SA",
+    bio: "Producteur & réalisateur parisien, hip-hop et reggae. A produit l'album Modern Jungle. Duo Cozik & Faya Pyd : +8 millions de vues sur YouTube.",
+  },
+  {
+    name: "Kali Sound System",
+    logo: "kali-sound.jpg",
+    link: "https://www.facebook.com/p/Kali-Sound-System-100063640326462/",
+    bio: "Sound system breton spécialisé reggae, dancehall & ragga jungle. Dubplates exclusives, basses puissantes — l'énergie des grandes soirées.",
+  },
+  {
+    name: "The Fanatiks",
+    logo: "the-fanatiks.png",
+    logoWide: true,
+    link: "https://thefanatiks.fr",
+    bio: "6 musiciens rennais fondés en 2015. Roots, rock & reggae — textes conscients et mélodies accrocheuses sur fond d'énergie positive.",
+  },
 ];
 const supportGrid = document.getElementById("supportGrid");
 support.forEach(a => {
@@ -254,9 +280,10 @@ support.forEach(a => {
   card.href = a.link;
   card.target = "_blank";
   card.rel = "noopener";
-  card.innerHTML = a.logo
-    ? `<img src="assets/img/logos/${a.logo}" alt="${a.name}"><h4>${a.name}</h4>`
-    : `<h4>${a.name}</h4>`;
+  const imgHtml = a.logo
+    ? `<img src="assets/img/logos/${a.logo}" alt="${a.name}"${a.logoWide ? ' class="wide"' : ""}>`
+    : "";
+  card.innerHTML = `${imgHtml}<h4>${a.name}</h4><p class="support-bio">${a.bio}</p>`;
   supportGrid.appendChild(card);
 });
 
