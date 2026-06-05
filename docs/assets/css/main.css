@@ -131,6 +131,29 @@ nav .container {
   transform: translateY(-2px);
 }
 .nav-socials svg { width: 16px; height: 16px; }
+.nav-lang {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-left: 1rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.nav-lang a {
+  color: var(--text-dim);
+  padding: 0.2rem 0.4rem;
+  border-radius: 3px;
+  transition: color .2s;
+}
+.nav-lang a:hover { color: var(--orange); }
+.nav-lang .lang-active {
+  color: var(--yellow);
+  padding: 0.2rem 0.4rem;
+}
+.nav-lang a + .lang-active,
+.nav-lang .lang-active + a { border-left: 1px solid var(--border); padding-left: 0.5rem; margin-left: 0.1rem; }
 .menu-toggle { display: none; }
 
 /* ---- Hero ---- */
