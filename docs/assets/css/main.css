@@ -98,7 +98,7 @@ nav .container {
   color: var(--yellow);
   letter-spacing: 0.05em;
 }
-.nav-links { display: flex; gap: 1.4rem; align-items: center; margin: 0 2rem; }
+.nav-links { display: flex; gap: 1.4rem; align-items: center; margin: 0 2rem 0 3.5rem; }
 .nav-links a {
   font-size: 0.9rem;
   text-transform: uppercase;
