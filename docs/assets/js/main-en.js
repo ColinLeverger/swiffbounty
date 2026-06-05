@@ -268,7 +268,6 @@ const support = [
   {
     name: "The Fanatiks",
     logo: "the-fanatiks.png",
-    logoWide: true,
     link: "https://thefanatiks.fr",
     bio: "5 Rennes-based musicians founded in 2015. Roots, rock & reggae. Conscious lyrics and catchy melodies with positive energy.",
   },
