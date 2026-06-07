@@ -252,8 +252,19 @@ const muteIcon = document.getElementById("muteIcon");
 
 const audio = new Audio();
 audio.preload = "none";
-audio.volume = 0.45;
+audio.volume = 0;
 audio.muted = true;
+const TARGET_VOL = 0.6;
+function fadeInVolume() {
+  audio.volume = 0;
+  const step = 40;
+  const increment = TARGET_VOL / (1600 / step);
+  const t = setInterval(() => {
+    const next = Math.min(audio.volume + increment, TARGET_VOL);
+    audio.volume = next;
+    if (next >= TARGET_VOL) clearInterval(t);
+  }, step);
+}
 let trackIdx = Math.floor(Math.random() * audioPlaylist.length);
 
 function loadTrack(i) {
@@ -281,7 +292,7 @@ playerNext.addEventListener("click", () => {
 playerMute.addEventListener("click", () => {
   audio.muted = !audio.muted;
   setMutedUI(audio.muted);
-  if (!audio.muted) player.classList.remove("muted-prompt");
+  if (!audio.muted) { player.classList.remove("muted-prompt"); audio.volume = TARGET_VOL; }
 });
 audio.addEventListener("play", () => setPlayingUI(true));
 audio.addEventListener("pause", () => setPlayingUI(false));
@@ -347,6 +358,7 @@ const oneShotUnmute = () => {
     audio.muted = false;
     setMutedUI(false);
     player.classList.remove("muted-prompt");
+    fadeInVolume();
   }
   if (audio.paused) audio.play().catch(() => {});
   document.removeEventListener("click", oneShotUnmute);

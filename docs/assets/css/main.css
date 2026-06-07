@@ -860,13 +860,14 @@ footer small { color: var(--text-dim); font-size: 0.85rem; }
 .ical-btn:hover { color: var(--orange); border-color: var(--orange); }
 @media (max-width: 700px) {
   .concert-row {
-    grid-template-columns: 80px 1fr auto;
+    grid-template-columns: min-content 1fr auto;
     padding: 1rem;
     gap: 1rem;
   }
   .concert-cta .prox-badge { display: none; }
   .ical-label { display: none; }
   .concert-date .day { font-size: 1.5rem; }
+  .concert-date .month { white-space: nowrap; }
 }
 
 /* ---- Reveal anim ---- */
