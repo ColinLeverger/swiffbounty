@@ -260,20 +260,28 @@ const muteIcon = document.getElementById("muteIcon");
 
 const audio = new Audio();
 audio.preload = "none";
-audio.volume = 0;
 audio.muted = true;
 const TARGET_VOL = 0.6;
+
+let audioCtx = null, gainNode = null;
+function initWebAudio() {
+  if (audioCtx) return;
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  const src = audioCtx.createMediaElementSource(audio);
+  gainNode = audioCtx.createGain();
+  gainNode.gain.value = 0;
+  src.connect(gainNode);
+  gainNode.connect(audioCtx.destination);
+}
 function fadeInVolume() {
-  audio.volume = 0;
-  const duration = 4000;
-  const step = 50;
-  const steps = duration / step;
-  let i = 0;
-  const t = setInterval(() => {
-    i++;
-    audio.volume = TARGET_VOL * Math.pow(i / steps, 2);
-    if (i >= steps) { audio.volume = TARGET_VOL; clearInterval(t); }
-  }, step);
+  if (!gainNode) return;
+  const doFade = () => {
+    gainNode.gain.cancelScheduledValues(audioCtx.currentTime);
+    gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+    gainNode.gain.linearRampToValueAtTime(TARGET_VOL, audioCtx.currentTime + 4);
+  };
+  if (audioCtx.state === 'suspended') audioCtx.resume().then(doFade);
+  else doFade();
 }
 let trackIdx = Math.floor(Math.random() * audioPlaylist.length);
 
@@ -300,9 +308,14 @@ playerNext.addEventListener("click", () => {
   audio.play();
 });
 playerMute.addEventListener("click", () => {
+  if (!audioCtx) initWebAudio();
   audio.muted = !audio.muted;
   setMutedUI(audio.muted);
-  if (!audio.muted) { player.classList.remove("muted-prompt"); audio.volume = TARGET_VOL; }
+  if (!audio.muted) {
+    player.classList.remove("muted-prompt");
+    if (gainNode) { gainNode.gain.cancelScheduledValues(audioCtx.currentTime); gainNode.gain.setValueAtTime(TARGET_VOL, audioCtx.currentTime); }
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+  }
 });
 audio.addEventListener("play", () => setPlayingUI(true));
 audio.addEventListener("pause", () => setPlayingUI(false));
@@ -365,6 +378,7 @@ if (document.readyState === "complete") startAudio();
 else window.addEventListener("load", startAudio);
 const oneShotUnmute = () => {
   if (audio.muted) {
+    initWebAudio();
     audio.muted = false;
     setMutedUI(false);
     player.classList.remove("muted-prompt");
