@@ -176,6 +176,11 @@ const EN_MONTHS = {
   'January':0,'February':1,'March':2,'April':3,'May':4,
   'June':5,'July':6,'August':7,'September':8,'October':9,'November':10,'December':11
 };
+const EN_MONTH_ABBR = {
+  'January':'JAN','February':'FEB','March':'MAR','April':'APR',
+  'May':'MAY','June':'JUNE','July':'JULY','August':'AUG',
+  'September':'SEPT','October':'OCT','November':'NOV','December':'DEC'
+};
 function concertDateObj(c) {
   return new Date(c.year, EN_MONTHS[c.month], parseInt(c.day, 10));
 }
@@ -220,7 +225,10 @@ concerts.forEach(c => {
   row.innerHTML = `
     <div class="concert-date">
       <span class="day">${c.day}</span>
-      <span class="month">${c.month} ${c.year}</span>
+      <span class="month">
+        <span class="month-full">${c.month} ${c.year}</span>
+        <span class="month-abbr">${EN_MONTH_ABBR[c.month]} ${c.year}</span>
+      </span>
     </div>
     <div class="concert-venue">
       <h4>${c.venue}</h4>
@@ -257,12 +265,14 @@ audio.muted = true;
 const TARGET_VOL = 0.6;
 function fadeInVolume() {
   audio.volume = 0;
-  const step = 40;
-  const increment = TARGET_VOL / (1600 / step);
+  const duration = 4000;
+  const step = 50;
+  const steps = duration / step;
+  let i = 0;
   const t = setInterval(() => {
-    const next = Math.min(audio.volume + increment, TARGET_VOL);
-    audio.volume = next;
-    if (next >= TARGET_VOL) clearInterval(t);
+    i++;
+    audio.volume = TARGET_VOL * Math.pow(i / steps, 2);
+    if (i >= steps) { audio.volume = TARGET_VOL; clearInterval(t); }
   }, step);
 }
 let trackIdx = Math.floor(Math.random() * audioPlaylist.length);

@@ -858,16 +858,18 @@ footer small { color: var(--text-dim); font-size: 0.85rem; }
   white-space: nowrap;
 }
 .ical-btn:hover { color: var(--orange); border-color: var(--orange); }
+.concert-date .month-abbr { display: none; }
 @media (max-width: 700px) {
   .concert-row {
-    grid-template-columns: min-content 1fr auto;
+    grid-template-columns: 80px 1fr auto;
     padding: 1rem;
     gap: 1rem;
   }
   .concert-cta .prox-badge { display: none; }
   .ical-label { display: none; }
   .concert-date .day { font-size: 1.5rem; }
-  .concert-date .month { white-space: nowrap; }
+  .concert-date .month-full { display: none; }
+  .concert-date .month-abbr { display: block; }
 }
 
 /* ---- Reveal anim ---- */
