@@ -171,6 +171,47 @@ document.getElementById("lightboxClose").addEventListener("click", closeLightbox
 lb.addEventListener("click", e => { if (e.target === lb) closeLightbox(); });
 document.addEventListener("keydown", e => { if (e.key === "Escape") closeLightbox(); });
 
+/* ---- Concert date utils ---- */
+const FR_MONTHS = {
+  'Janvier':0,'Février':1,'Mars':2,'Avril':3,'Mai':4,
+  'Juin':5,'Juillet':6,'Août':7,'Septembre':8,'Octobre':9,'Novembre':10,'Décembre':11
+};
+function concertDateObj(c) {
+  return new Date(c.year, FR_MONTHS[c.month], parseInt(c.day, 10));
+}
+function proximityBadge(c) {
+  const today = new Date(); today.setHours(0,0,0,0);
+  const diff = Math.round((concertDateObj(c) - today) / 86400000);
+  if (diff < 0) return '';
+  if (diff === 0) return "<span class=\"prox-badge today\">Aujourd'hui !</span>";
+  if (diff === 1) return '<span class="prox-badge soon">Demain !</span>';
+  if (diff <= 6) return `<span class="prox-badge soon">Dans ${diff} jours</span>`;
+  return '';
+}
+function downloadIcal(c) {
+  const d = concertDateObj(c);
+  const pad = n => String(n).padStart(2,'0');
+  const fmt = dt => `${dt.getFullYear()}${pad(dt.getMonth()+1)}${pad(dt.getDate())}`;
+  const endDay = new Date(d); endDay.setDate(endDay.getDate() + 1);
+  const desc = ['Concert Swiff Bounty', c.note, c.with ? `avec ${c.with}` : ''].filter(Boolean).join(' – ');
+  const ics = [
+    'BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Swiff Bounty//FR',
+    'BEGIN:VEVENT',
+    `UID:swiff-${c.year}-${c.month}-${c.day}@swiffbounty.fr`,
+    `DTSTART;VALUE=DATE:${fmt(d)}`,
+    `DTEND;VALUE=DATE:${fmt(endDay)}`,
+    `SUMMARY:Swiff Bounty – ${c.venue}`,
+    `LOCATION:${c.venue}\\, ${c.city}`,
+    `DESCRIPTION:${desc}`,
+    'END:VEVENT','END:VCALENDAR'
+  ].join('\r\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([ics], { type: 'text/calendar' }));
+  a.download = `swiff-bounty-${c.year}-${c.month}-${c.day}.ics`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
 /* ---- Render concerts ---- */
 const concertList = document.getElementById("concertList");
 concerts.forEach(c => {
@@ -186,8 +227,15 @@ concerts.forEach(c => {
       <p>${c.city}${c.note ? ` · ${c.note}` : ""}</p>
       ${c.with ? `<span class="with">Avec ${c.with}</span>` : ""}
     </div>
-    <div class="concert-cta">Bientôt →</div>
+    <div class="concert-cta">
+      ${proximityBadge(c)}
+      <button class="ical-btn" title="Ajouter au calendrier" aria-label="Ajouter au calendrier">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        <span class="ical-label">Calendrier</span>
+      </button>
+    </div>
   `;
+  row.querySelector('.ical-btn').addEventListener('click', e => { e.stopPropagation(); downloadIcal(c); });
   concertList.appendChild(row);
 });
 

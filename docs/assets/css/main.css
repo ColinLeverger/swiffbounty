@@ -825,14 +825,47 @@ footer small { color: var(--text-dim); font-size: 0.85rem; }
   letter-spacing: 0.1em;
   margin-top: 0.3rem;
 }
-.concert-cta { font-size: 0.8rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; }
+.concert-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+.prox-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.2rem 0.55rem;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+.prox-badge.today { background: var(--orange); color: #000; }
+.prox-badge.soon  { background: var(--yellow); color: #000; }
+.ical-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.3rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  transition: color .2s, border-color .2s;
+  white-space: nowrap;
+}
+.ical-btn:hover { color: var(--orange); border-color: var(--orange); }
 @media (max-width: 700px) {
   .concert-row {
-    grid-template-columns: 80px 1fr;
+    grid-template-columns: 80px 1fr auto;
     padding: 1rem;
     gap: 1rem;
   }
-  .concert-cta { display: none; }
+  .concert-cta .prox-badge { display: none; }
+  .ical-label { display: none; }
   .concert-date .day { font-size: 1.5rem; }
 }
 
