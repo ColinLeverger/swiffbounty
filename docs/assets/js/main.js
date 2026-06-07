@@ -261,7 +261,7 @@ const muteIcon = document.getElementById("muteIcon");
 const audio = new Audio();
 audio.preload = "none";
 audio.muted = true;
-const TARGET_VOL = 0.6;
+const TARGET_VOL = 0.35;
 
 let audioCtx = null, gainNode = null;
 function initWebAudio() {
@@ -276,9 +276,10 @@ function initWebAudio() {
 function fadeInVolume() {
   if (!gainNode) return;
   const doFade = () => {
-    gainNode.gain.cancelScheduledValues(audioCtx.currentTime);
-    gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
-    gainNode.gain.linearRampToValueAtTime(TARGET_VOL, audioCtx.currentTime + 4);
+    const now = audioCtx.currentTime;
+    gainNode.gain.cancelScheduledValues(0);
+    gainNode.gain.setValueAtTime(0, now);
+    gainNode.gain.linearRampToValueAtTime(TARGET_VOL, now + 8);
   };
   if (audioCtx.state === 'suspended') audioCtx.resume().then(doFade);
   else doFade();
@@ -313,7 +314,7 @@ playerMute.addEventListener("click", () => {
   setMutedUI(audio.muted);
   if (!audio.muted) {
     player.classList.remove("muted-prompt");
-    if (gainNode) { gainNode.gain.cancelScheduledValues(audioCtx.currentTime); gainNode.gain.setValueAtTime(TARGET_VOL, audioCtx.currentTime); }
+    if (gainNode) { gainNode.gain.cancelScheduledValues(0); gainNode.gain.setValueAtTime(TARGET_VOL, audioCtx.currentTime); }
     if (audioCtx.state === 'suspended') audioCtx.resume();
   }
 });
