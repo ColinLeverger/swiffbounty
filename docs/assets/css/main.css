@@ -277,11 +277,12 @@ nav .container {
   gap: 0;
 }
 .album-feature-cover {
-  aspect-ratio: 1 / 1;
   overflow: hidden;
+  min-height: 380px;
 }
 .album-feature-cover img {
   width: 100%; height: 100%;
+  min-height: 380px;
   object-fit: cover;
   display: block;
 }
@@ -302,47 +303,7 @@ nav .container {
 }
 .album-feature-meta strong { color: var(--orange); }
 
-/* ---- Buy / Bandcamp ---- */
-.buy-feature {
-  background: linear-gradient(135deg, #0a1a0a 0%, #1a0a1a 100%);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  overflow: hidden;
-  display: grid;
-  grid-template-columns: minmax(280px, 440px) 1fr;
-  gap: 0;
-}
-.buy-feature-embed {
-  background: #0a0a0a;
-  padding: 2.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-right: 1px solid var(--border);
-}
-.buy-feature-embed iframe {
-  border: 0;
-  width: 100%;
-  max-width: 360px;
-  height: 470px;
-  display: block;
-}
-.buy-feature-info {
-  padding: 3rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-.buy-feature-info .eyebrow { color: var(--blue); }
-.buy-feature-info h3 {
-  font-family: "Alfa Slab One", serif;
-  font-size: clamp(1.6rem, 3vw, 2.4rem);
-  color: var(--yellow);
-  text-transform: uppercase;
-  margin-bottom: 1rem;
-  line-height: 1.05;
-}
-.buy-feature-info p { margin-bottom: 1.5rem; }
+/* ---- Buy formats list (inside album feature) ---- */
 .buy-formats {
   list-style: none;
   margin: 0 0 2rem;
@@ -951,12 +912,11 @@ footer small { color: var(--text-dim); font-size: 0.85rem; }
 @media (max-width: 900px) {
   .bio-grid,
   .album-feature,
-  .buy-feature,
   .contact-grid { grid-template-columns: 1fr; }
   .bio-grid img { box-shadow: 8px 8px 0 var(--orange); }
-  .album-feature-info,
-  .buy-feature-info { padding: 2rem; }
-  .buy-feature-embed { border-right: 0; border-bottom: 1px solid var(--border); padding: 1.5rem; }
+  .album-feature-info { padding: 2rem; }
+  .album-feature-cover { min-height: 280px; }
+  .album-feature-cover img { min-height: 280px; }
   .nav-links { display: none; }
   .nav-socials { display: none; }
   .menu-toggle {
