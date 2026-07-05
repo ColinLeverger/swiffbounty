@@ -54,6 +54,9 @@ const concerts = [
   { day: "11", month: "July", year: 2026, venue: "Festival de Pancé", city: "Pancé (35)" },
   { day: "24", month: "July", year: 2026, venue: "Guinguette de Camille et Léon", city: "St-Erblon (35)" },
   { day: "07", month: "September", year: 2026, venue: "Guinguette de Kercabiron", city: "Le Cours (56)" },
+  { day: "11", month: "September", year: 2026, venue: "Bistrot la maison", city: "Bain-sur-Oust" },
+  { day: "03", month: "October", year: 2026, venue: "Convention Tatoo Encreetsens", city: "Pornichet" },
+  { day: "11", month: "December", year: 2026, venue: "CAP", city: "Pancé (35)" },
 ];
 
 const audioPlaylist = [
