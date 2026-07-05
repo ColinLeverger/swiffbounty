@@ -127,7 +127,7 @@ function swapFacade(el) {
     title="YouTube"
     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
     allowfullscreen></iframe>`;
-  if (typeof audio !== "undefined" && !audio.paused) audio.pause();
+  pausePlayer();
 }
 renderVideos();
 document.querySelectorAll(".video-tabs button").forEach(btn => {
@@ -161,18 +161,64 @@ function openVideo(yt, playlist) {
     : `https://www.youtube-nocookie.com/embed/${yt}?autoplay=1`;
   lbContent.innerHTML = `<iframe src="${src}" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
   lb.classList.add("open");
-  audioWasPlaying = typeof audio !== "undefined" && !audio.paused;
-  if (audioWasPlaying) audio.pause();
+  audioWasPlaying = isPlaying;
+  pausePlayer();
 }
 function closeLightbox() {
   lb.classList.remove("open");
   lbContent.innerHTML = "";
-  if (audioWasPlaying && typeof audio !== "undefined") audio.play().catch(() => {});
+  if (audioWasPlaying) resumePlayer();
   audioWasPlaying = false;
 }
 document.getElementById("lightboxClose").addEventListener("click", closeLightbox);
 lb.addEventListener("click", e => { if (e.target === lb) closeLightbox(); });
 document.addEventListener("keydown", e => { if (e.key === "Escape") closeLightbox(); });
+
+/* ---- Concert date utils ---- */
+const FR_MONTHS = {
+  'Janvier':0,'Février':1,'Mars':2,'Avril':3,'Mai':4,
+  'Juin':5,'Juillet':6,'Août':7,'Septembre':8,'Octobre':9,'Novembre':10,'Décembre':11
+};
+const FR_MONTH_ABBR = {
+  'Janvier':'JANV','Février':'FÉVR','Mars':'MARS','Avril':'AVRI',
+  'Mai':'MAI','Juin':'JUIN','Juillet':'JUIL','Août':'AOÛT',
+  'Septembre':'SEPT','Octobre':'OCT','Novembre':'NOV','Décembre':'DÉC'
+};
+function concertDateObj(c) {
+  return new Date(c.year, FR_MONTHS[c.month], parseInt(c.day, 10));
+}
+function proximityBadge(c) {
+  const today = new Date(); today.setHours(0,0,0,0);
+  const diff = Math.round((concertDateObj(c) - today) / 86400000);
+  if (diff < 0) return '';
+  if (diff === 0) return "<span class=\"prox-badge today\">Aujourd'hui !</span>";
+  if (diff === 1) return '<span class="prox-badge soon">Demain !</span>';
+  if (diff <= 6) return `<span class="prox-badge soon">Dans ${diff} jours</span>`;
+  return '';
+}
+function downloadIcal(c) {
+  const d = concertDateObj(c);
+  const pad = n => String(n).padStart(2,'0');
+  const fmt = dt => `${dt.getFullYear()}${pad(dt.getMonth()+1)}${pad(dt.getDate())}`;
+  const endDay = new Date(d); endDay.setDate(endDay.getDate() + 1);
+  const desc = ['Concert Swiff Bounty', c.note, c.with ? `avec ${c.with}` : ''].filter(Boolean).join(' – ');
+  const ics = [
+    'BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Swiff Bounty//FR',
+    'BEGIN:VEVENT',
+    `UID:swiff-${c.year}-${c.month}-${c.day}@swiffbounty.fr`,
+    `DTSTART;VALUE=DATE:${fmt(d)}`,
+    `DTEND;VALUE=DATE:${fmt(endDay)}`,
+    `SUMMARY:Swiff Bounty – ${c.venue}`,
+    `LOCATION:${c.venue}\\, ${c.city}`,
+    `DESCRIPTION:${desc}`,
+    'END:VEVENT','END:VCALENDAR'
+  ].join('\r\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([ics], { type: 'text/calendar' }));
+  a.download = `swiff-bounty-${c.year}-${c.month}-${c.day}.ics`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
 
 /* ---- Render concerts ---- */
 const concertList = document.getElementById("concertList");
@@ -182,19 +228,29 @@ concerts.forEach(c => {
   row.innerHTML = `
     <div class="concert-date">
       <span class="day">${c.day}</span>
-      <span class="month">${c.month} ${c.year}</span>
+      <span class="month">
+        <span class="month-full">${c.month} ${c.year}</span>
+        <span class="month-abbr">${FR_MONTH_ABBR[c.month]} ${c.year}</span>
+      </span>
     </div>
     <div class="concert-venue">
       <h4>${c.venue}</h4>
       <p>${c.city}${c.note ? ` · ${c.note}` : ""}</p>
       ${c.with ? `<span class="with">Avec ${c.with}</span>` : ""}
     </div>
-    <div class="concert-cta">Bientôt →</div>
+    <div class="concert-cta">
+      ${proximityBadge(c)}
+      <button class="ical-btn" title="Ajouter au calendrier" aria-label="Ajouter au calendrier">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        <span class="ical-label">Calendrier</span>
+      </button>
+    </div>
   `;
+  row.querySelector('.ical-btn').addEventListener('click', e => { e.stopPropagation(); downloadIcal(c); });
   concertList.appendChild(row);
 });
 
-/* ---- Audio player ---- */
+/* ---- Audio player (pure Web Audio API — no HTMLMediaElement output) ---- */
 const player = document.getElementById("player");
 const playerTitle = document.getElementById("playerTitle");
 const playerPlay = document.getElementById("playerPlay");
@@ -205,42 +261,86 @@ const pauseIcon = document.getElementById("pauseIcon");
 const volIcon = document.getElementById("volIcon");
 const muteIcon = document.getElementById("muteIcon");
 
-const audio = new Audio();
-audio.preload = "none";
-audio.volume = 0.45;
-audio.muted = true;
+const TARGET_VOL = 0.35;
+let audioCtx = null, gainNode = null, currentSource = null;
 let trackIdx = Math.floor(Math.random() * audioPlaylist.length);
+let isPlaying = false, isMuted = true;
+const bufferCache = {};
 
-function loadTrack(i) {
+function setPlayingUI(v) { playIcon.style.display = v ? "none" : ""; pauseIcon.style.display = v ? "" : "none"; }
+function setMutedUI(v) { volIcon.style.display = v ? "none" : ""; muteIcon.style.display = v ? "" : "none"; }
+
+function initWebAudio() {
+  if (audioCtx) return;
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  gainNode = audioCtx.createGain();
+  gainNode.gain.value = 0;
+  gainNode.connect(audioCtx.destination);
+}
+
+async function fetchBuffer(file) {
+  if (bufferCache[file]) return bufferCache[file];
+  const res = await fetch(`assets/audio/${file}`);
+  const buf = await audioCtx.decodeAudioData(await res.arrayBuffer());
+  bufferCache[file] = buf;
+  return buf;
+}
+
+async function playTrack(i) {
   trackIdx = (i + audioPlaylist.length) % audioPlaylist.length;
-  const t = audioPlaylist[trackIdx];
-  audio.src = `assets/audio/${t.file}`;
-  playerTitle.textContent = t.title;
+  playerTitle.textContent = audioPlaylist[trackIdx].title;
+  if (!audioCtx) return;
+  if (currentSource) { try { currentSource.onended = null; currentSource.stop(); } catch(e) {} currentSource = null; }
+  try {
+    if (audioCtx.state === 'suspended') await audioCtx.resume();
+    const buffer = await fetchBuffer(audioPlaylist[trackIdx].file);
+    currentSource = audioCtx.createBufferSource();
+    currentSource.buffer = buffer;
+    currentSource.connect(gainNode);
+    currentSource.onended = () => { isPlaying = false; setPlayingUI(false); playTrack(trackIdx + 1); };
+    currentSource.start(0);
+    isPlaying = true;
+    setPlayingUI(true);
+  } catch(e) { isPlaying = false; setPlayingUI(false); }
 }
-function setPlayingUI(playing) {
-  playIcon.style.display = playing ? "none" : "";
-  pauseIcon.style.display = playing ? "" : "none";
+
+function pausePlayer() {
+  if (audioCtx && audioCtx.state === 'running') { audioCtx.suspend(); isPlaying = false; setPlayingUI(false); }
 }
-function setMutedUI(muted) {
-  volIcon.style.display = muted ? "none" : "";
-  muteIcon.style.display = muted ? "" : "none";
+function resumePlayer() {
+  if (audioCtx && audioCtx.state === 'suspended') { audioCtx.resume(); isPlaying = true; setPlayingUI(true); }
+}
+
+function fadeInVolume() {
+  if (!gainNode) return;
+  const doFade = () => {
+    const now = audioCtx.currentTime;
+    gainNode.gain.cancelScheduledValues(0);
+    gainNode.gain.setValueAtTime(0, now);
+    gainNode.gain.linearRampToValueAtTime(TARGET_VOL, now + 8);
+  };
+  if (audioCtx.state === 'suspended') audioCtx.resume().then(doFade); else doFade();
 }
 
 playerPlay.addEventListener("click", () => {
-  if (audio.paused) audio.play(); else audio.pause();
+  if (!audioCtx) return;
+  if (isPlaying) pausePlayer(); else resumePlayer();
 });
-playerNext.addEventListener("click", () => {
-  loadTrack(trackIdx + 1);
-  audio.play();
-});
+playerNext.addEventListener("click", () => { if (audioCtx) playTrack(trackIdx + 1); });
 playerMute.addEventListener("click", () => {
-  audio.muted = !audio.muted;
-  setMutedUI(audio.muted);
-  if (!audio.muted) player.classList.remove("muted-prompt");
+  if (!audioCtx) return;
+  isMuted = !isMuted;
+  setMutedUI(isMuted);
+  if (!isMuted) {
+    player.classList.remove("muted-prompt");
+    gainNode.gain.cancelScheduledValues(0);
+    gainNode.gain.setValueAtTime(TARGET_VOL, audioCtx.currentTime);
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+  } else {
+    gainNode.gain.cancelScheduledValues(0);
+    gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+  }
 });
-audio.addEventListener("play", () => setPlayingUI(true));
-audio.addEventListener("pause", () => setPlayingUI(false));
-audio.addEventListener("ended", () => { loadTrack(trackIdx + 1); audio.play(); });
 
 /* ---- Render full support ---- */
 const support = [
@@ -289,24 +389,23 @@ support.forEach(a => {
   supportGrid.appendChild(card);
 });
 
-function startAudio() {
-  loadTrack(trackIdx);
-  setMutedUI(true);
-  player.hidden = false;
-  audio.play().catch(() => setPlayingUI(false));
-}
-if (document.readyState === "complete") startAudio();
-else window.addEventListener("load", startAudio);
-const oneShotUnmute = () => {
-  if (audio.muted) {
-    audio.muted = false;
+// Show player immediately; audio starts on first user gesture
+playerTitle.textContent = audioPlaylist[trackIdx].title;
+setMutedUI(true);
+player.hidden = false;
+
+const oneShotStart = () => {
+  if (isMuted) {
+    initWebAudio();
+    isMuted = false;
     setMutedUI(false);
     player.classList.remove("muted-prompt");
+    fadeInVolume();
+    playTrack(trackIdx);
   }
-  if (audio.paused) audio.play().catch(() => {});
-  document.removeEventListener("click", oneShotUnmute);
+  document.removeEventListener("click", oneShotStart);
 };
-document.addEventListener("click", oneShotUnmute, { once: false });
+document.addEventListener("click", oneShotStart, { once: false });
 
 /* ---- Mobile menu ---- */
 const menuToggle = document.getElementById("menuToggle");

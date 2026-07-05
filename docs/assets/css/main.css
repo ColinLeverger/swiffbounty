@@ -277,13 +277,20 @@ nav .container {
   gap: 0;
 }
 .album-feature-cover {
-  aspect-ratio: 1 / 1;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem;
+  background: rgba(0, 0, 0, 0.25);
 }
 .album-feature-cover img {
-  width: 100%; height: 100%;
-  object-fit: cover;
+  width: 100%;
+  max-width: 460px;
+  height: auto;
   display: block;
+  border-radius: 4px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
 }
 .album-feature-info { padding: 3rem; display: flex; flex-direction: column; justify-content: center; }
 .album-feature-info .eyebrow { color: var(--blue); }
@@ -301,6 +308,51 @@ nav .container {
   text-transform: uppercase; letter-spacing: 0.1em;
 }
 .album-feature-meta strong { color: var(--orange); }
+
+/* ---- Buy formats list (inside album feature) ---- */
+.buy-formats {
+  list-style: none;
+  margin: 0 0 2rem;
+  padding: 0;
+  display: grid;
+  gap: 0.6rem;
+}
+.buy-formats li {
+  padding: 0;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--orange);
+  border-radius: 4px;
+  font-size: 0.95rem;
+  transition: background .2s, border-left-color .2s;
+}
+.buy-formats li > a,
+.buy-formats li > div {
+  display: block;
+  padding: 0.85rem 1rem;
+  color: inherit;
+}
+.buy-formats li:has(a):hover {
+  background: rgba(26, 143, 255, 0.07);
+  border-left-color: var(--blue);
+}
+.buy-formats li:has(a):hover strong { color: var(--orange); }
+.buy-formats strong { color: var(--text); display: block; }
+.buy-formats small {
+  color: var(--text-dim);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.buy-streaming-links {
+  display: block;
+  margin-top: 0.35rem;
+}
+.buy-streaming-links a {
+  color: var(--orange);
+  transition: color .2s;
+}
+.buy-streaming-links a:hover { color: var(--blue); }
 
 /* ---- Discographie grid ---- */
 .disco-grid {
@@ -825,15 +877,51 @@ footer small { color: var(--text-dim); font-size: 0.85rem; }
   letter-spacing: 0.1em;
   margin-top: 0.3rem;
 }
-.concert-cta { font-size: 0.8rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; }
+.concert-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+.prox-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.2rem 0.55rem;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+.prox-badge.today { background: var(--orange); color: #000; }
+.prox-badge.soon  { background: var(--yellow); color: #000; }
+.ical-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.3rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  transition: color .2s, border-color .2s;
+  white-space: nowrap;
+}
+.ical-btn:hover { color: var(--orange); border-color: var(--orange); }
+.concert-date .month-abbr { display: none; }
 @media (max-width: 700px) {
   .concert-row {
-    grid-template-columns: 80px 1fr;
+    grid-template-columns: 80px 1fr auto;
     padding: 1rem;
     gap: 1rem;
   }
-  .concert-cta { display: none; }
+  .concert-cta .prox-badge { display: none; }
+  .ical-label { display: none; }
   .concert-date .day { font-size: 1.5rem; }
+  .concert-date .month-full { display: none; }
+  .concert-date .month-abbr { display: block; }
 }
 
 /* ---- Reveal anim ---- */
@@ -854,6 +942,7 @@ footer small { color: var(--text-dim); font-size: 0.85rem; }
   .contact-grid { grid-template-columns: 1fr; }
   .bio-grid img { box-shadow: 8px 8px 0 var(--orange); }
   .album-feature-info { padding: 2rem; }
+  .album-feature-cover { padding: 1.5rem; }
   .nav-links { display: none; }
   .nav-socials { display: none; }
   .menu-toggle {
