@@ -2,6 +2,7 @@
 
 /* ---- Data ---- */
 const tracks = [
+  { title: "We Rise", date: "Jul 17, 2026", type: "clip", yt: "7YevXvvha2w", link: "https://open.spotify.com/track/0tAs18YE5aVw1GcWAZwHrK" },
   { title: "Modern Jungle", date: "Dec 5, 2025", type: "album", yt: "kjgHtYrj_nA", cover: "../assets/img/covers/pochette-modern-jungle-v2.jpg", playlist: "PLEQHouVYID5H1ZfCcvElC-zK61wlEyM6Q", link: "https://wiseband.lnk.to/Swiff-Bounty-Modern-Jungle", badge: "Album" },
   { title: "Be Ruff", date: "Nov 28, 2025", type: "visualizer", yt: "xkP7cPlSuPI", link: "https://wiseband.lnk.to/Swiff-Bounty-Be-Ruff" },
   { title: "Good Times", date: "Oct 30, 2025", type: "clip", yt: "VDaJe8f1_qc", link: "https://wiseband.lnk.to/Swiff-Bounty-Good-Times" },
@@ -15,6 +16,7 @@ const tracks = [
 ];
 
 const videos = [
+  { title: "The Remedy", type: "clip", yt: "pVJtAXWyMOo" },
   { title: "Run the Track", type: "clip", yt: "kjgHtYrj_nA" },
   { title: "Good Times", type: "clip", yt: "VDaJe8f1_qc" },
   { title: "Like a Storm", type: "clip", yt: "6prtKJXYOxQ" },
@@ -367,6 +369,12 @@ const support = [
     logo: "kali-sound.jpg",
     link: "https://www.facebook.com/p/Kali-Sound-System-100063640326462/",
     bio: "Breton sound system specializing in reggae, dancehall & ragga jungle. Exclusive dubplates, powerful bass lines... The energy of big events.",
+  },
+  {
+    name: "Mystikal Man Records",
+    logo: "mystikal-man.jpg",
+    link: "https://www.facebook.com/p/Mystikal-man-records-100063498995430/",
+    bio: "Breton reggae label led by Mystikal Man, \"the most Jamaican of Bretons\". Roots & raggamuffin productions, collaborations with General Levy and Max Romeo.",
   },
   {
     name: "The Fanatiks",
