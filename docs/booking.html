@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Swiff Bounty - Booking · Formules</title>
+<meta name="description" content="Les trois formules scéniques de Swiff Bounty : Solo, Sound System et Full Band. Page de travail réservée aux programmateurs.">
+<link rel="icon" type="image/png" href="assets/img/logos/logo-mark.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Playfair+Display:wght@900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/main.css">
+<style>
+/* ---- Booking page (spécifique) ---- */
+.draft-banner {
+  position: fixed;
+  top: var(--nav-h); left: 0; right: 0;
+  z-index: 99;
+  background: repeating-linear-gradient(45deg, #2a1a00, #2a1a00 12px, #241600 12px, #241600 24px);
+  border-bottom: 1px solid rgba(245, 208, 0, 0.35);
+  color: var(--yellow);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 0.55rem 1rem;
+}
+.draft-banner strong { color: #fff; }
+
+.booking-hero {
+  min-height: 72vh;
+  padding: calc(var(--nav-h) + 5rem) 0 4rem;
+  display: flex;
+  align-items: flex-end;
+  position: relative;
+  overflow: hidden;
+}
+.booking-hero .hero-bg { object-position: center 40%; }
+.booking-hero .container { position: relative; z-index: 2; }
+section[id] { scroll-margin-top: calc(var(--nav-h) + 4.5rem); }
+.booking-hero h1 {
+  font-family: "Alfa Slab One", "Playfair Display", Georgia, serif;
+  font-size: clamp(2.6rem, 8vw, 6.5rem);
+  color: var(--yellow);
+  -webkit-text-stroke: 2px #000;
+  text-shadow: 5px 5px 0 var(--orange), 10px 10px 0 var(--blue);
+  text-transform: uppercase;
+  line-height: 0.88;
+  margin-bottom: 1.25rem;
+}
+.booking-hero .lead {
+  max-width: 620px;
+  font-size: 1.05rem;
+  margin-bottom: 2rem;
+}
+
+/* ---- Formules ---- */
+.formula-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  align-items: stretch;
+}
+.formula {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform .3s, border-color .3s, box-shadow .3s;
+}
+.formula:hover {
+  transform: translateY(-6px);
+  border-color: var(--orange);
+  box-shadow: 0 14px 40px rgba(0,0,0,0.6);
+}
+.formula.featured {
+  border-color: var(--orange);
+  box-shadow: 0 0 0 1px var(--orange), 0 14px 44px rgba(255,107,26,0.16);
+}
+.formula-media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  background: #000;
+  overflow: hidden;
+}
+.formula-media img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  filter: brightness(0.82);
+  transition: transform .5s, filter .3s;
+}
+.formula:hover .formula-media img { transform: scale(1.06); filter: brightness(1); }
+.formula-tag {
+  position: absolute;
+  top: 0.85rem; left: 0.85rem;
+  background: var(--orange);
+  color: #000;
+  font-family: "Alfa Slab One", serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.7rem;
+  border-radius: 3px;
+}
+.formula-tag.blue { background: var(--blue); }
+.formula-tag.yellow { background: var(--yellow); }
+.formula-body {
+  padding: 1.6rem 1.5rem 1.8rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 1rem;
+}
+.formula-body h3 {
+  font-family: "Alfa Slab One", serif;
+  font-size: 1.35rem;
+  text-transform: uppercase;
+  color: var(--text);
+  margin: 0;
+  line-height: 1.1;
+}
+.formula-pitch { font-size: 0.9rem; margin: 0; }
+.formula-price {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-top: auto;
+  border-top: 1px solid var(--border);
+  padding-top: 1rem;
+}
+.formula-price .amount {
+  font-family: "Alfa Slab One", serif;
+  font-size: 1.9rem;
+  color: var(--yellow);
+  line-height: 1;
+}
+.formula-price small {
+  color: var(--text-dim);
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.formula-specs {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  margin: 0;
+  flex: 1;
+}
+.formula-specs li {
+  display: flex;
+  gap: 0.6rem;
+  font-size: 0.86rem;
+  color: var(--text-dim);
+  line-height: 1.45;
+}
+.formula-specs li svg { flex: 0 0 16px; margin-top: 3px; color: var(--orange); }
+.formula-specs li strong { color: var(--text); font-weight: 600; }
+.formula .btn { justify-content: center; width: 100%; font-size: 0.82rem; padding: 0.85rem 1rem; }
+
+/* ---- Comparatif ---- */
+.compare-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 10px; }
+table.compare {
+  width: 100%;
+  min-width: 720px;
+  border-collapse: collapse;
+  background: var(--bg-soft);
+  font-size: 0.9rem;
+}
+table.compare th, table.compare td {
+  padding: 0.95rem 1.1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+table.compare thead th {
+  font-family: "Alfa Slab One", serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--orange);
+  background: var(--bg-elev);
+  white-space: nowrap;
+}
+table.compare thead th:first-child { color: var(--text-dim); }
+table.compare tbody th {
+  font-weight: 600;
+  color: var(--text);
+  width: 30%;
+}
+table.compare td { color: var(--text-dim); }
+table.compare tbody tr:last-child th,
+table.compare tbody tr:last-child td { border-bottom: none; }
+table.compare tbody tr:hover td,
+table.compare tbody tr:hover th { background: rgba(255,107,26,0.05); }
+
+/* ---- Inclus / options ---- */
+.included-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+.panel {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.8rem;
+}
+.panel h3 {
+  font-family: "Alfa Slab One", serif;
+  font-size: 1.05rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 1.1rem;
+}
+.panel.included h3 { color: var(--blue); }
+.panel.options h3 { color: var(--yellow); }
+.panel ul { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+.panel li { font-size: 0.88rem; color: var(--text-dim); display: flex; gap: 0.65rem; line-height: 1.5; }
+.panel li span.mark { color: var(--orange); flex: 0 0 auto; font-weight: 700; }
+.panel li strong { color: var(--text); }
+
+/* ---- FAQ ---- */
+.faq { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem 2.5rem; }
+.faq details {
+  border-bottom: 1px solid var(--border);
+  padding: 1rem 0;
+}
+.faq summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--text);
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.95rem;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; color: var(--orange); font-size: 1.3rem; line-height: 1; }
+.faq details[open] summary::after { content: "−"; }
+.faq p { margin-top: 0.7rem; font-size: 0.88rem; }
+
+/* ---- CTA ---- */
+.booking-cta {
+  background: linear-gradient(135deg, rgba(255,107,26,0.12), rgba(26,143,255,0.10));
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 3rem 2rem;
+  text-align: center;
+}
+.booking-cta h2 { margin-bottom: 1rem; }
+.booking-cta p { max-width: 560px; margin: 0 auto 2rem; }
+.booking-cta .hero-ctas { justify-content: center; }
+
+@media (max-width: 1000px) {
+  .formula-grid { grid-template-columns: 1fr; max-width: 560px; margin: 0 auto; }
+  .included-grid, .faq { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ========== NAV ========== -->
+<nav class="topnav">
+  <div class="container">
+    <a href="index.html" class="nav-logo">
+      <img src="assets/img/logos/logo-mark.png" alt="Swiff Bounty">
+      <span>Swiff Bounty</span>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="#formules">Formules</a>
+      <a href="#comparatif">Comparatif</a>
+      <a href="#conditions">Conditions</a>
+      <a href="#faq">FAQ</a>
+      <a href="index.html">← Retour au site</a>
+    </div>
+    <div class="nav-socials">
+      <a href="mailto:swiffbounty@gmail.com" aria-label="Email">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7l9 6 9-6M3 7v10a2 2 0 002 2h14a2 2 0 002-2V7M3 7l2-2h14l2 2"/></svg>
+      </a>
+      <a href="https://linkaband.com/swiff-bounty" target="_blank" rel="noopener" aria-label="Linkaband">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
+      </a>
+    </div>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+  </div>
+</nav>
+
+<div class="draft-banner">
+  Page de travail non publiée · <strong>tarifs fictifs</strong>, à valider avant toute diffusion
+</div>
+
+<!-- ========== HERO ========== -->
+<header class="booking-hero">
+  <img class="hero-bg" src="assets/img/photos/live-sound-system-2026.jpg" alt="" fetchpriority="high" decoding="async">
+  <div class="hero-shade"></div>
+  <div class="container">
+    <span class="eyebrow">Booking 2026 / 2027 · Bretagne &amp; toute la France</span>
+    <h1>Trois<br>formules</h1>
+    <p class="lead">
+      Du bar de village à la grande scène : Swiff Bounty s'adapte à votre plateau, votre jauge
+      et votre budget. Même énergie, trois échelles.
+    </p>
+    <div class="hero-ctas">
+      <a class="btn" href="#formules">Voir les formules</a>
+      <a class="btn btn-ghost" href="dossier-presse.pdf" target="_blank" rel="noopener">Dossier de presse</a>
+    </div>
+  </div>
+</header>
+
+<!-- ========== FORMULES ========== -->
+<section id="formules">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Ce qu'on peut monter chez vous</span>
+      <h2>Les formules</h2>
+    </div>
+
+    <div class="formula-grid">
+
+      <!-- SOLO -->
+      <article class="formula reveal">
+        <div class="formula-media">
+          <img src="assets/img/photos/DSC07688-Modifier.jpg" alt="Swiff Bounty en formule solo">
+          <span class="formula-tag blue">Formule 1</span>
+        </div>
+        <div class="formula-body">
+          <h3>Swiff Solo</h3>
+          <p class="formula-pitch">
+            Voix, machines et présence brute. Le format le plus léger, pensé pour les bars,
+            guinguettes, premières parties et showcases.
+          </p>
+          <ul class="formula-specs">
+            <li><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8z"/></svg><span><strong>1 personne</strong> sur scène (chant + backing tracks)</span></li>
+            <li><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span><strong>45 à 60 min</strong> de set</span></li>
+            <li><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V9l7-5 7 5v12"/></svg><span>Jauge conseillée <strong>30 à 150 personnes</strong></span></li>
+            <li><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span>2 DI, 1 micro fil, 1 retour · plateau <strong>2 × 2 m</strong></span></li>
+            <li><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="9"/></svg><span>Montage 45 min · balance 30 min</span></li>
+          </ul>
+          <div class="formula-price">
+            <span class="amount">650 €</span>
+            <small>HT · net de TVA</small>
+          </div>
+          <a class="btn btn-ghost" href="mailto:swiffbounty@gmail.com?subject=Booking%20Swiff%20Bounty%20-%20formule%20Solo">Demander une date</a>
+        </div>
+      </article>
+
+      <!-- SOUND SYSTEM -->
+      <article class="formula featured reveal">
+        <div class="formula-media">
+          <img src="assets/img/photos/live-sound-system-2026.jpg" alt="Swiff Bounty en formule sound system">
+          <span class="formula-tag">La plus demandée</span>
+        </div>
+        <div class="formula-body">
+          <h3>Sound System</h3>
+          <p class="formula-pitch">
+            Swiff au micro, un selecta aux platines. Dubplates, riddims et interaction directe
+            avec le public : le format club et soirée sound system.
+          </p>
+          <ul class="formula-specs">
+            <li><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87"/></svg><span><strong>2 personnes</strong> : Swiff (MC / chant) + selecta</span></li>
+            <li><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span><strong>60 à 90 min</strong>, modulable en deux sets</span></li>
+            <li><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V9l7-5 7 5v12"/></svg><span>Clubs, festivals, soirées sound · <strong>100 à 600 personnes</strong></span></li>
+            <li><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span>2 micros HF, 2 CDJ + mixette, 2 retours</span></li>
+            <li><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="9"/></svg><span>Montage 1 h · balance 45 min</span></li>
+          </ul>
+          <div class="formula-price">
+            <span class="amount">1 200 €</span>
+            <small>HT · net de TVA</small>
+          </div>
+          <a class="btn" href="mailto:swiffbounty@gmail.com?subject=Booking%20Swiff%20Bounty%20-%20formule%20Sound%20System">Demander une date</a>
+        </div>
+      </article>
+
+      <!-- FULL BAND -->
+      <article class="formula reveal">
+        <div class="formula-media">
+          <img src="assets/img/photos/live-full-band-2026.jpg" alt="Swiff Bounty en formule full band">
+          <span class="formula-tag yellow">Formule 3</span>
+        </div>
+        <div class="formula-body">
+          <h3>Full Band</h3>
+          <p class="formula-pitch">
+            Le live complet : section rythmique, cuivres du studio transposés sur scène et
+            arrangements retravaillés pour les grandes scènes.
+          </p>
+          <ul class="formula-specs">
+            <li><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg><span><strong>5 musiciens</strong> : chant, batterie, basse, guitare, clavier</span></li>
+            <li><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span><strong>75 à 90 min</strong> de set</span></li>
+            <li><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V9l7-5 7 5v12"/></svg><span>Festivals, SMAC, salles · <strong>300 personnes et +</strong></span></li>
+            <li><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span>Fiche technique complète · plateau <strong>6 × 5 m</strong>, 6 retours</span></li>
+            <li><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="9"/></svg><span>Montage 2 h · balance 1 h · catering 6 pers.</span></li>
+          </ul>
+          <div class="formula-price">
+            <span class="amount">2 800 €</span>
+            <small>HT · net de TVA</small>
+          </div>
+          <a class="btn btn-ghost" href="mailto:swiffbounty@gmail.com?subject=Booking%20Swiff%20Bounty%20-%20formule%20Full%20Band">Demander une date</a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ========== COMPARATIF ========== -->
+<section id="comparatif" style="background:var(--bg-soft)">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">En un coup d'œil</span>
+      <h2>Comparatif</h2>
+    </div>
+    <div class="compare-wrap reveal">
+      <table class="compare">
+        <thead>
+          <tr>
+            <th>&nbsp;</th>
+            <th>Solo</th>
+            <th>Sound System</th>
+            <th>Full Band</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><th>Personnes en tournée</th><td>1</td><td>2</td><td>6 (5 + 1 technicien)</td></tr>
+          <tr><th>Durée du set</th><td>45–60 min</td><td>60–90 min</td><td>75–90 min</td></tr>
+          <tr><th>Jauge conseillée</th><td>30–150</td><td>100–600</td><td>300+</td></tr>
+          <tr><th>Plateau minimum</th><td>2 × 2 m</td><td>4 × 3 m</td><td>6 × 5 m</td></tr>
+          <tr><th>Retours</th><td>1</td><td>2</td><td>6</td></tr>
+          <tr><th>Montage / balance</th><td>45 min / 30 min</td><td>1 h / 45 min</td><td>2 h / 1 h</td></tr>
+          <tr><th>Ingé son fourni</th><td>Non</td><td>Non</td><td>Oui</td></tr>
+          <tr><th>Tarif indicatif</th><td>650 € HT</td><td>1 200 € HT</td><td>2 800 € HT</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ========== CONDITIONS ========== -->
+<section id="conditions">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Ce qui est prévu, ce qui s'ajoute</span>
+      <h2>Conditions</h2>
+    </div>
+    <div class="included-grid">
+      <div class="panel included reveal">
+        <h3>Compris dans le tarif</h3>
+        <ul>
+          <li><span class="mark">✓</span><span>Cachets et charges de l'équipe artistique</span></li>
+          <li><span class="mark">✓</span><span>Backline personnel : machines, pédalier voix, micros HF</span></li>
+          <li><span class="mark">✓</span><span>Fiche technique et plan de scène envoyés à la signature</span></li>
+          <li><span class="mark">✓</span><span>Kit de communication : photos HD, logos, bio, liens streaming</span></li>
+          <li><span class="mark">✓</span><span>Déplacement dans un rayon de <strong>100 km autour de Rennes</strong></span></li>
+        </ul>
+      </div>
+      <div class="panel options reveal">
+        <h3>En supplément</h3>
+        <ul>
+          <li><span class="mark">+</span><span>Déplacement au-delà de 100 km : <strong>0,60 €/km</strong> par véhicule</span></li>
+          <li><span class="mark">+</span><span>Hébergement et repas à partir de 250 km ou set après 23 h</span></li>
+          <li><span class="mark">+</span><span>Sonorisation et lumière si le lieu n'est pas équipé : <strong>sur devis</strong></span></li>
+          <li><span class="mark">+</span><span>DJ set en after (1 h) : <strong>+ 300 € HT</strong></span></li>
+          <li><span class="mark">+</span><span>Atelier écriture / rencontre scolaire la même journée : <strong>+ 400 € HT</strong></span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FAQ ========== -->
+<section id="faq" style="background:var(--bg-soft)">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Les questions qui reviennent</span>
+      <h2>FAQ booking</h2>
+    </div>
+    <div class="faq reveal">
+      <details open>
+        <summary>Comment réserver une date ?</summary>
+        <p>Un mail à swiffbounty@gmail.com avec la date, le lieu, la jauge et la formule visée. Réponse sous 48 h, puis devis et contrat de cession.</p>
+      </details>
+      <details>
+        <summary>Peut-on adapter la durée du set ?</summary>
+        <p>Oui. Chaque formule se découpe en deux sets ou se réduit à un format court de 30 min pour les tremplins et premières parties.</p>
+      </details>
+      <details>
+        <summary>Vous jouez en extérieur ?</summary>
+        <p>Oui, avec scène couverte et alimentation stabilisée. En plein soleil, prévoir une bâche sur le plateau pour le matériel électronique.</p>
+      </details>
+      <details>
+        <summary>Le contrat, c'est via quelle structure ?</summary>
+        <p>Contrat de cession classique. Les cachets passent par le GUSO ou par la structure de production selon le montage.</p>
+      </details>
+      <details>
+        <summary>Y a-t-il une exclusivité territoriale ?</summary>
+        <p>Pas de clause systématique. Sur les festivals, on s'accorde au cas par cas sur un rayon et un délai autour de la date.</p>
+      </details>
+      <details>
+        <summary>Que se passe-t-il en cas d'annulation ?</summary>
+        <p>Annulation à plus de 30 jours : sans frais. Entre 30 et 7 jours : 50 % du cachet. À moins de 7 jours : cachet dû en intégralité, hors cas de force majeure.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ========== CTA ========== -->
+<section>
+  <div class="container">
+    <div class="booking-cta reveal">
+      <span class="eyebrow">Une date en tête ?</span>
+      <h2>On en parle</h2>
+      <p>
+        Dites-nous la date, le lieu et la jauge : on revient vers vous avec la formule
+        qui colle et un devis précis.
+      </p>
+      <div class="hero-ctas">
+        <a class="btn" href="mailto:swiffbounty@gmail.com?subject=Booking%20Swiff%20Bounty">swiffbounty@gmail.com</a>
+        <a class="btn btn-ghost" href="tel:+33659042088">06 59 04 20 88</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer>
+  <div class="container">
+    <img src="assets/img/logos/logo-mark.png" alt="Swiff Bounty">
+    <small>© 2026 Swiff Bounty · Page booking · Tarifs indicatifs, hors frais annexes</small>
+  </div>
+</footer>
+
+<script>
+/* Reveal au scroll */
+(function () {
+  const els = document.querySelectorAll(".reveal:not(.in)");
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.12 });
+  els.forEach(el => io.observe(el));
+
+  const toggle = document.getElementById("menuToggle");
+  const links = document.getElementById("navLinks");
+  if (toggle && links) {
+    toggle.addEventListener("click", () => links.classList.toggle("open"));
+    links.querySelectorAll("a").forEach(a => a.addEventListener("click", () => links.classList.remove("open")));
+  }
+})();
+</script>
+</body>
+</html>

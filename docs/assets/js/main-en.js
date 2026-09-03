@@ -28,6 +28,8 @@ const videos = [
 ];
 
 const photos = [
+  "live-full-band-2026.jpg",
+  "live-sound-system-2026.jpg",
   "photo-couv-2025.jpeg",
   "couv-2025-face.jpeg",
   "couv-2025-profil.jpeg",
